@@ -1,0 +1,56 @@
+import requests
+import random as rnd
+from datetime import datetime
+
+cidades = [
+    "São Paulo",       # Brasil
+    "Rio de Janeiro",  # Brasil
+    "Belo Horizonte",   # Brasil
+    "Lisboa",           # Portugal
+    "Madrid",           # Espanha
+    "Buenos Aires",     # Argentina
+    "Lima",             # Peru
+    "Cidade do México", # México
+    "Nova Iorque",      # EUA
+    "Los Angeles",      # EUA
+    "Paris",            # França
+    "Londres",          # Inglaterra
+    "Tóquio",           # Japão
+    "Pequim",           # China
+    "Sydney",           # Austrália
+    "Toronto",          # Canadá
+    "Roma",             # Itália
+    "Moscovo",          # Rússia
+    "Berlim",           # Alemanha
+    "Cairo",            # Egito
+    "Dubai",            # Emirados Árabes Unidos
+    "Mumbai",           # Índia
+    "Joanesburgo",      # África do Sul
+    "Seul",             # Coreia do Sul
+    "Bangkok",          # Tailândia
+    "São Francisco",    # EUA
+]
+
+# Exemplo de uma API pública (API de tempo do OpenWeather)
+api_key = 'a4a15bea8fb690cb6c4a9c8f9fb572ae'  # Você precisará de uma chave API real para o OpenWeather
+cidade = rnd.choice(cidades)
+url = f'http://api.openweathermap.org/data/2.5/weather?q={cidade}&appid={api_key}&units=metric&lang=pt_br'
+
+# Fazer a requisição à API
+resposta = requests.get(url)
+
+# Verificar se a requisição foi bem-sucedida
+if resposta.status_code == 200:
+    # Converter a resposta para JSON
+    dados = resposta.json()
+    localtime = dados['timezone']
+    horarios = dados['dt']+localtime
+    horario = datetime.utcfromtimestamp(horarios).strftime('%d/%m/%y-%H:%M')
+   
+    # Extrair informações relevantes
+    temperatura = dados['main']['temp']
+    descricao = dados['weather'][0]['description']
+    
+    print(f"A temperatura em {cidade} é {temperatura}°C e o clima é {descricao}.\nHorário:{horario}")
+else:
+    print(f"Erro ao acessar a API: {resposta.status_code}")
