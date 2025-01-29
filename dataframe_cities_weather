@@ -3,7 +3,6 @@ import json
 import pandas as pd
 from matplotlib import pyplot as plt
 import time
-from googletrans import Translator
 
 cidades = [
     'São Paulo,BR',  # São Paulo, Brasil
