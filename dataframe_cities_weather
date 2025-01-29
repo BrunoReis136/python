@@ -51,7 +51,7 @@ temps = {'Cidades':[],'Temperaturas':[],'Clima':[]}
 api_key = 'a4a15bea8fb690cb6c4a9c8f9fb572ae'
 
 for cidade in cidades:
-  url = f'http://api.openweathermap.org/data/2.5/weather?q={cidade}&appid={api_key}&units=metric&lang=pt-br'
+  url = f'http://api.openweathermap.org/data/2.5/weather?q={cidade}&appid={api_key}&units=metric&lang=pt_br'
   response = requests.get(url)
   data = response.json()
   temps['Cidades'].append(data['name'])
