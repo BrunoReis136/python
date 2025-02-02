@@ -1,0 +1,27 @@
+from bs4 import BeautifulSoup
+import requests
+import pandas as pd
+
+url = 'https://www.cptm.sp.gov.br/Pages/Home.aspx'
+
+response = requests.get(url)
+
+html_content = response.text
+
+from bs4 import BeautifulSoup
+import requests
+import pandas as pd
+
+url = 'https://www.cptm.sp.gov.br/Pages/Home.aspx'
+
+response = requests.get(url)
+
+html_content = response.text
+
+soup = BeautifulSoup(html_content,'html.parser')
+
+lines = soup.findAll('span', {'data-original-title':True})
+situation = [span['data-original-title']for span in lines]
+
+for x in situation:
+  print(x)
