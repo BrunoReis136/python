@@ -1,0 +1,26 @@
+from bs4 import BeautifulSoup
+import requests
+import pandas as pd
+
+url = 'https://www.migalhas.com.br/'
+
+response = requests.get(url)
+
+html_content = response.text
+
+soup = BeautifulSoup(html_content,'html.parser')
+
+lines = soup.findAll('h3', class_=['topico__body','topico-desktop hide-mobile'],recursive=True)
+
+lines_clear = []
+
+
+for x in lines:
+  lines_clear.append(x.get_text(strip=True))
+
+clear = set(lines_clear)
+
+i = 1
+for x in clear:
+  print(f'{i} - {x}\n')
+  i+=1
