@@ -10,16 +10,13 @@ response = requests.get(url)
 news = {'Título':[],'Descrição':[],'Link':[]}
 
 if response.status_code == 200:
-  data = response.json()
-  
-  news['Título'].append(data['articles'][0]['title'])
-  news['Descrição'].append(data['articles'][0]['description'])
-  news['Link'].append(data['articles'][0]['url'])
+  data = response.json() 
+  for article in data['articles']:
+    news['Título'].append(article['title'])
+    news['Descrição'].append(article['description'])
+    news['Link'].append(article['url'])
 else:
   print('Erro de conexão :',response.status_code)
-
 tablenews = pd.DataFrame(news)
-
 pd.set_option('display.max_rows',None)
-
 print(tablenews)
