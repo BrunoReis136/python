@@ -1,0 +1,17 @@
+import feedparser
+
+url ='https://g1.globo.com/rss/g1/economia'
+
+conteudo = feedparser.parse(url)
+
+noticias = {'Titulo':[],'Link':[]}
+
+for cont in conteudo.entries:
+  noticias['Titulo'].append(cont['title'])
+  noticias['Link'].append(cont['link'])
+
+tablenews = pd.DataFrame(noticias)
+pd.set_option('display.max_rows',None)
+print(tablenews)
+
+tablenews.to_excel('listaNoticiasEconomia.xlsx',index=True)
