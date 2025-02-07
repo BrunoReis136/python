@@ -1,0 +1,17 @@
+import pandas as pd
+import requests
+
+url='https://en.wikipedia.org/wiki/1980_in_film'
+
+'''response = requests.get(url)
+
+soup = BeautifulSoup(response.text,'html.parser')
+
+tables = soup.find_all('td')
+
+print(tables)
+'''
+lista = pd.read_html(url)[0]
+
+lista.to_excel('ListaJan2024.xlsx',index=False)
+print(lista)
