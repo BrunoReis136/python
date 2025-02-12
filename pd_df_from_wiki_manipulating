@@ -1,0 +1,37 @@
+import pandas as pd
+
+url ='https://en-m-wikipedia-org.translate.goog/wiki/List_of_Genshin_Impact_characters?_x_tr_sl=en&_x_tr_tl=pt&_x_tr_hl=pt&_x_tr_pto=wa'
+
+conteudo = pd.read_html(url)
+
+#tabela = conteudo[3]
+
+tabela = [tab for tab in conteudo if 'Name' in tab.columns]
+tabela = pd.concat(tabela,ignore_index = True)
+
+
+'''
+for x in range(4,9):
+  tabela = pd.concat([tabela,conteudo[x]])
+'''
+
+tabela = tabela.sort_values(by=tabela.columns[0])
+
+r = 0
+
+while r == 0:
+  coluna = input(f'Qual informação filtrar? As opções são: {", ".join(list(tabela.columns))}. :')
+  if coluna in list(tabela.columns):
+    r=1
+  else:
+    print('Opção inválida')
+
+r = 0
+while r == 0:
+  resposta = input(f'Qual valor para o filtro? As opções são {", ".join(set(tabela[coluna].astype(str)))}')
+  if resposta in set(list(tabela[coluna].astype(str))):
+    r = 1
+  else:
+    print('Opção inválida')
+
+print(tabela[['Name','Element','Weapon']].loc[tabela[coluna]==resposta].reset_index(drop=True))
