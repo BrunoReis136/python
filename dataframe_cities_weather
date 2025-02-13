@@ -1,8 +1,7 @@
 import requests
-import json
 import pandas as pd
-from matplotlib import pyplot as plt
 import time
+from datetime import datetime, timedelta
 
 cidades = [
     'São Paulo,BR',  # São Paulo, Brasil
@@ -15,47 +14,56 @@ cidades = [
     'Recife,BR',  # Recife, Brasil
     'Manaus,BR',  # Manaus, Brasil
     'Porto Alegre,BR',  # Porto Alegre, Brasil
-    'New York,US',  # New York, Estados Unidos
+    'Nova Iorque,US',  # Nova Iorque, Estados Unidos
     'Los Angeles,US',  # Los Angeles, Estados Unidos
     'Chicago,US',  # Chicago, Estados Unidos
     'Miami,US',  # Miami, Estados Unidos
-    'London,GB',  # Londres, Reino Unido
+    'Londres,GB',  # Londres, Reino Unido
     'Paris,FR',  # Paris, França
-    'Tokyo,JP',  # Tóquio, Japão
-    'Berlin,DE',  # Berlim, Alemanha
+    'Tóquio,JP',  # Tóquio, Japão
+    'Berlim,DE',  # Berlim, Alemanha
     'Sydney,AU',  # Sydney, Austrália
-    'Moscow,RU',  # Moscovo, Rússia
-    'Beijing,CN',  # Pequim, China
-    'Delhi,IN',  # Nova Délhi, Índia
+    'Moscovo,RU',  # Moscovo, Rússia
+    'Pequim,CN',  # Pequim, China
+    'Nova Délhi,IN',  # Nova Délhi, Índia
     'Cairo,EG',  # Cairo, Egito
-    'Cape Town,ZA',  # Cidade do Cabo, África do Sul
-    'Mexico City,MX',  # Cidade do México, México
+    'Cidade do Cabo,ZA',  # Cidade do Cabo, África do Sul
+    'Cidade do México,MX',  # Cidade do México, México
     'Lagos,NG',  # Lagos, Nigéria
     'Buenos Aires,AR',  # Buenos Aires, Argentina
     'Santiago,CL',  # Santiago, Chile
     'Madrid,ES',  # Madrid, Espanha
-    'Rome,IT',  # Roma, Itália
+    'Roma,IT',  # Roma, Itália
     'Dubai,AE',  # Dubai, Emirados Árabes Unidos
-    'Seoul,KR',  # Seul, Coreia do Sul
+    'Seul,KR',  # Seul, Coreia do Sul
     'Hong Kong,HK',  # Hong Kong, China
-    'Singapore,SG',  # Singapura, Singapura
-    'Jakarta,ID',  # Jacarta, Indonésia
+    'Singapura,SG',  # Singapura, Singapura
+    'Jacarta,ID',  # Jacarta, Indonésia
     'Kuala Lumpur,MY',  # Kuala Lumpur, Malásia
     'Bangkok,TH',  # Bangkok, Tailândia
-    'Istanbul,TR'  # Istambul, Turquia
+    'Istambul,TR'  # Istambul, Turquia
 ]
 
-dates = ['2025-01-23','2025-01-24','2025-01-25','2025-01-26','2025-01-27']
+dates = []
+
+for i in range(5):
+  day = datetime.now() - timedelta(days=i)
+  dates.append(day.strftime('%Y/%m/%d'))
+
+print(dates)
+
 temps = {'Cidades':[],'Temperaturas':[],'Clima':[]}
 api_key = 'a4a15bea8fb690cb6c4a9c8f9fb572ae'
+
 
 for cidade in cidades:
   url = f'http://api.openweathermap.org/data/2.5/weather?q={cidade}&appid={api_key}&units=metric&lang=pt_br'
   response = requests.get(url)
   data = response.json()
-  temps['Cidades'].append(data['name'])
-  temps['Temperaturas'].append(data['main']['temp_max'])
-  temps['Clima'].append(data['weather'][0]['main'])
+  if 'name' in data:
+    temps['Cidades'].append(data['name'])
+    temps['Temperaturas'].append(data['main']['temp_max'])
+    temps['Clima'].append(data['weather'][0]['main'])
 
 tempsTable = pd.DataFrame(temps)
 
